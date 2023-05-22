@@ -7,15 +7,17 @@
         mc:Ignorable="d"
         FontFamily="Segoe UI Light"
         ResizeMode="NoResize"
-        Background="White"
         Title="Tic Tac Toe" Height="451" Width="600">
+    <Window.Background>
+        <ImageBrush ImageSource="Images/Beige.jpeg"/>
+    </Window.Background>
 
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid Background="White">
+                        <Grid Background="Transparent">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </ControlTemplate>
@@ -38,36 +40,33 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="UpPanel" Width="334"
-                    Orientation="Horizontal" HorizontalAlignment="Center" >
-            <TextBlock FontSize="45"
-                       Text="Start the game-_-"/>
-        </StackPanel>
+                    Orientation="Horizontal" HorizontalAlignment="Center" />
 
         <Canvas x:Name="GameField" Margin="127,68,127,31"
                 Grid.Row="1">
-            <UniformGrid x:Name="GameUniGrid" Width="346" Height="300"
+            <UniformGrid x:Name="GameUniGrid" Width="434" Height="358"
                          Rows="3" Columns="3"
                          HorizontalAlignment="Center" VerticalAlignment="Top"
-                         MouseDown="GameUniGrid_MouseDown" Canvas.Top="-46">
+                         Canvas.Top="-78" Canvas.Left="-44">
                 <UniformGrid.Background>
                     <ImageBrush ImageSource="Images/Field.jpg" Stretch="Fill"/>
                 </UniformGrid.Background>
-            
-                <Button x:Name="Button0_0" Grid.Column="0" Grid.Row="0" Margin="26,21,2,2" Click="Button0_0_Click" />
-                <Button x:Name="Button1_0" Grid.Column="1" Grid.Row="0" Margin="14,21,13,2" Click="Button1_0_Click"/>
-                <Button x:Name="Button2_0" Grid.Column="2" Grid.Row="0" Margin="2,21,25,2" Click="Button2_0_Click"/>
 
-                <Button x:Name="Button0_1" Grid.Column="0" Grid.Row="1" Margin="26,10,3,12" Click="Button0_1_Click" />
-                <Button x:Name="Button1_1" Grid.Column="1" Grid.Row="1" Margin="14,10,13,12" Click="Button1_1_Click"/>
-                <Button x:Name="Button2_1" Grid.Column="2" Grid.Row="1" Margin="2,10,25,12" Click="Button2_1_Click"/>
+                <Button x:Name="Button0_0" Grid.Column="0" Grid.Row="0" Margin="70,56,-14,-10" Click="Button_Click" />
+                <Button x:Name="Button1_0" Grid.Column="1" Grid.Row="0" Margin="19,56,19,-10" Click="Button_Click"/>
+                <Button x:Name="Button2_0" Grid.Column="2" Grid.Row="0" Margin="-13,56,69,-10" Click="Button_Click"/>
 
-                <Button x:Name="Button0_2" Grid.Column="0" Grid.Row="2" Margin="26,2,2,21" Click="Button0_2_Click"/>
-                <Button x:Name="Button1_2" Grid.Column="1" Grid.Row="2" Margin="14,2,13,21" Click="Button1_2_Click"/>
-                <Button x:Name="Button2_2" Grid.Column="2" Grid.Row="2" Margin="3,2,25,21" Click="Button2_2_Click"/>
+                <Button x:Name="Button0_1" Grid.Column="0" Grid.Row="1" Margin="70,15,-14,19" Click="Button_Click" />
+                <Button x:Name="Button1_1" Grid.Column="1" Grid.Row="1" Margin="19,15,19,19" Click="Button_Click"/>
+                <Button x:Name="Button2_1" Grid.Column="2" Grid.Row="1" Margin="-13,15,69,19" Click="Button_Click"/>
+
+                <Button x:Name="Button0_2" Grid.Column="0" Grid.Row="2" Margin="70,-14,-14,59" Click="Button_Click"/>
+                <Button x:Name="Button1_2" Grid.Column="1" Grid.Row="2" Margin="19,-14,19,59" Click="Button_Click"/>
+                <Button x:Name="Button2_2" Grid.Column="2" Grid.Row="2" Margin="-14,-14,69,59" Click="Button_Click"/>
             </UniformGrid>
         </Canvas>
-        
-        
+
+
         <Grid x:Name="EndScreen" Grid.RowSpan="2"
               Background="Moccasin" Visibility="Hidden">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
@@ -90,5 +89,7 @@
                         FontSize="23" BorderBrush="Black" Click="Exit_Button"/>
             </StackPanel>
         </Grid>
+        <TextBlock FontSize="45" Foreground="SaddleBrown"
+                       Text="Start the game" Margin="160,0,133,0"/>
     </Grid>
 </Window>

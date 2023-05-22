@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Tic_Tac_Toe
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -27,12 +27,22 @@ namespace Tic_Tac_Toe
         }
 
         #endregion
-        
+        #region Private members
+        // contains the current result of the cell of the field
+        private CellType[] currentResult;
+        //taking the current player prosses
+        private bool isPlayerTurn = true;
+        private bool gameEnd;
+        #endregion
 
-        private bool isPlayerXTurn = true;
+
+        /* This method takes the button object as an argument
+         * and is responsible for setting the button content
+         * depending on the player's current move
+         */ 
         private void ButtonContent(Button button)
         {
-            if (isPlayerXTurn)
+            if (isPlayerTurn)
             {
                 button.Content = "X";
             }
@@ -40,71 +50,19 @@ namespace Tic_Tac_Toe
             {
                 button.Content = "O";
             }
-            isPlayerXTurn = !isPlayerXTurn;
+            //the isPlayerTurn value is inverted to pass the move to the next player
+            isPlayerTurn = !isPlayerTurn;
         }
-
-        private void Button0_0_Click(object sender, RoutedEventArgs e)
+        
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
+           //converting the sender object type to the Button type and assigning it to the button variable
            Button button = (Button)sender;
            ButtonContent(button);
+           //disables the button  and makes it unavailable for further interaction
            button.IsEnabled = false;
         }
-        private void Button1_0_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            ButtonContent(button);
-            button.IsEnabled = false;
-        }
-        private void Button2_0_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            ButtonContent(button);
-            button.IsEnabled = false;
-        }
-
-        private void Button0_1_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            ButtonContent(button);
-            button.IsEnabled = false;
-        }
-        private void Button1_1_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            ButtonContent(button);
-            button.IsEnabled = false;
-        }
-        private void Button2_1_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            ButtonContent(button);
-            button.IsEnabled = false;
-        }
-
-        private void Button0_2_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            ButtonContent(button);
-            button.IsEnabled = false;
-        }
-        private void Button1_2_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            ButtonContent(button);
-            button.IsEnabled = false;
-        }
-        private void Button2_2_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            ButtonContent(button);
-            button.IsEnabled = false;
-        }
-
-
-        private void GameUniGrid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
+        
         private void Restart_Button(object sender, RoutedEventArgs e)
         {
             
