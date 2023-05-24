@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,23 +26,32 @@ namespace Tic_Tac_Toe
         public MainWindow()
         {
             InitializeComponent();
+            /* this method is called here to make sure that all buttons 
+             * were initialized correctly before the game
+             */
+            NewGame();
+        }
+        /* 
+         * For more convenient further reference in the code 
+         */
+        private void NewGame()
+        {
+            InitializePlayingField();
         }
 
         #endregion
         #region Private members
-        // contains the current result of the cell of the field
-        private CellType[] currentResult;
         //taking the current player prosses
         private bool isPlayerTurn = true;
-        private bool gameEnd;
         private Button[,] arrayOfButtons; //Declaration of the buttons array
+        private int moveCounter; // Counter for the number of moves
         #endregion
 
-        public void InitializePlayingField()
-        {
-            //Initialize the buttons array with a 3x3 size
-            arrayOfButtons = new Button[3, 3];
-            //assigning button names to a two-dimensional array
+        private void InitializePlayingField()
+        {            
+            arrayOfButtons = new Button[3, 3]; //Initialize the buttons array with a 3x3 size
+
+            //Assigning button names to a two-dimensional array
             arrayOfButtons[0, 0] = Button0_0;
             arrayOfButtons[0, 1] = Button0_1;
             arrayOfButtons[0, 2] = Button0_2;
@@ -52,6 +62,8 @@ namespace Tic_Tac_Toe
             arrayOfButtons[2, 1] = Button2_1;
             arrayOfButtons[2, 2] = Button2_2;
 
+            moveCounter = 0; //Initialize the move counter
+            isPlayerTurn = true;
         }
                 
         /* This method takes the button object as an argument
@@ -63,17 +75,27 @@ namespace Tic_Tac_Toe
             if (isPlayerTurn)
             {
                 button.Content = "X";
+                labelPlayerTurn.Content = "Player: O";
             }
             else
             {
                 button.Content = "O";
+                labelPlayerTurn.Content = "Player: X";
             }
-            InitializePlayingField();
+
+            moveCounter++;  //Increment the move counter
+
             //check for winning condition
             if (CheckForWin())
             {
                 GameOver();
             }
+            //check for a tie
+            else if (moveCounter == 9 && !CheckForWin())
+            {
+                GameTie();
+            }
+
             //the isPlayerTurn value is inverted to pass the move to the next player
             isPlayerTurn = !isPlayerTurn;
         }
@@ -89,6 +111,7 @@ namespace Tic_Tac_Toe
             {
                 if (CheckLine(arrayOfButtons[row,0], arrayOfButtons[row,1], arrayOfButtons[row,2]))
                 {
+                    DisableButtons();
                     return true;
                 }
                     
@@ -98,6 +121,7 @@ namespace Tic_Tac_Toe
             {
                 if (CheckLine(arrayOfButtons[0, column], arrayOfButtons[1, column], arrayOfButtons[2,column]))
                 {
+                    DisableButtons();
                     return true;
                 }
                     
@@ -105,12 +129,14 @@ namespace Tic_Tac_Toe
             //Check diagonals for win
             if (CheckLine(arrayOfButtons[0,0], arrayOfButtons[1,1], arrayOfButtons[2,2]))
             {
+                DisableButtons();
                 return true;
             }
                
             //Antidiagonals
             if (CheckLine(arrayOfButtons[0,2], arrayOfButtons[1,1], arrayOfButtons[2,0]))
             {
+                DisableButtons();
                 return true;
             }
                 
@@ -148,14 +174,69 @@ namespace Tic_Tac_Toe
            button.IsEnabled = false;
         }
 
-        private void GameOver()
+
+        private async void GameOver()
         {
-            MessageBox.Show("Game over");
+            //wait one second before calling the method ShowEndScreen
+            await Task.Delay(1000);
+            //if 'isPlayerTurn' = true, winner is Player X, else Player O
+            string result = isPlayerTurn ? "Winner: Player X" : "Winner: Player O";
+            ShowEndScreen(result);
+        }
+        private async void GameTie()
+        {
+            await Task.Delay(1000);
+            string result = "It's a tie";
+            ShowEndScreen(result);
+        }
+
+        /* Displaying information about who won
+         * or would have been a tie
+         */
+        private void ShowEndScreen(string result)
+        {
+            EndScreen.Visibility = Visibility.Visible;
+            Result.Text = result;
         }
         
+        /* After pressing the 'Play' button, it clear the field,
+         * starts a new game and hides the end and start screen of the game
+         */
         private void Restart_Button(object sender, RoutedEventArgs e)
         {
-            
+            NewGame();
+            ClearPlayingField();
+            EndScreen.Visibility = Visibility.Hidden;
+        }
+
+        /* Disables the buttons. In this case, it is used to disable
+         * pressing the buttons after a winning combination
+         */
+        private void DisableButtons()
+        {
+            for (int row = 0; row < 3; row++)
+            {
+                for (int col = 0; col < 3; col++)
+                {
+                    arrayOfButtons[row, col].IsEnabled = false;
+                }
+            }
+        }
+
+        /* This method iterates over all elements of a two-dimensional array.
+         * Sets the content of the button to null to clear  it from precious move.
+         * After that, the value of all buttons is set to 'true' for the new game
+         */
+        private void ClearPlayingField()
+        {
+           for(int row  = 0; row < 3;  row++)
+            {
+                for (int col = 0; col < 3; col++)
+                {
+                    arrayOfButtons[row, col].Content = null;
+                    arrayOfButtons[row, col].IsEnabled = true;
+                }
+            }
         }
 
         private void Exit_Button(object sender, RoutedEventArgs e)

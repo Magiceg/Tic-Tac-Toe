@@ -36,11 +36,15 @@
     </Window.Resources>
     <Grid x:Name="AllScreen">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" MinHeight="72"/>
+            <RowDefinition Height="auto" MinHeight="80"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="UpPanel" Width="334"
-                    Orientation="Horizontal" HorizontalAlignment="Center" />
+        <StackPanel x:Name="UpPanel" Width="180"
+                    Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label x:Name="labelPlayerTurn" FontSize="45"
+                   Foreground="SaddleBrown" Content="Player: X" Width="181"/>
+        </StackPanel>
+
 
         <Canvas x:Name="GameField" Margin="127,68,127,31"
                 Grid.Row="1">
@@ -68,17 +72,17 @@
 
 
         <Grid x:Name="EndScreen" Grid.RowSpan="2"
-              Background="Moccasin" Visibility="Hidden">
+              Background="Moccasin" >
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock x:Name="Result" FontSize="30" Margin="0,0,0,30"
-                               Text="Did you like it? Play again!"/>
+                    <TextBlock x:Name="Result" FontFamily="b" FontSize="30" Margin="0,0,0,30"
+                               Text="Tic Tac Toe"/>
                 </StackPanel>
-                <Button Content="Play again"
+                <Button Content="Play"
                         Background="Khaki"
                         FontSize="23" Padding="0,0,5,0"
                         Width="112" BorderBrush="Black"
-                        Click="Restart_Button"/>
+                        Click="Restart_Button" Height="31"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock FontSize="25"
                                Text="Or" 
@@ -89,7 +93,5 @@
                         FontSize="23" BorderBrush="Black" Click="Exit_Button"/>
             </StackPanel>
         </Grid>
-        <TextBlock FontSize="45" Foreground="SaddleBrown"
-                       Text="Start the game" Margin="160,0,133,0"/>
     </Grid>
 </Window>
