@@ -72,6 +72,7 @@ namespace Tic_Tac_Toe
          */ 
         private void ButtonContent(Button button)
         {
+            bool currentPlayerTurn = isPlayerTurn;
             if (isPlayerTurn)
             {
                 button.Content = "X";
@@ -82,6 +83,7 @@ namespace Tic_Tac_Toe
                 button.Content = "O";
                 labelPlayerTurn.Content = "Player: X";
             }
+            
 
             moveCounter++;  //Increment the move counter
 
@@ -89,11 +91,17 @@ namespace Tic_Tac_Toe
             if (CheckForWin())
             {
                 GameOver();
+                isPlayerTurn = currentPlayerTurn;
+                labelPlayerTurn.Content = currentPlayerTurn ? "Player: X" : "Player: O";
+                return;
             }
             //check for a tie
             else if (moveCounter == 9 && !CheckForWin())
             {
                 GameTie();
+                isPlayerTurn = currentPlayerTurn;
+                labelPlayerTurn.Content = currentPlayerTurn ? "Player: X" : "Player: O";
+                return;
             }
 
             //the isPlayerTurn value is inverted to pass the move to the next player
@@ -139,7 +147,6 @@ namespace Tic_Tac_Toe
                 DisableButtons();
                 return true;
             }
-                
 
             return false;
         }
@@ -150,9 +157,9 @@ namespace Tic_Tac_Toe
         private bool CheckLine(Button button1, Button button2, Button button3)
         {
             //to compare the contents of buttons as strings 
-            string content1 = button1.Content as string;
-            string content2 = button2.Content as string;
-            string content3 = button3.Content as string;
+            string content1 = button1.Content?.ToString();
+            string content2 = button2.Content?.ToString();
+            string content3 = button3.Content?.ToString();
             /* What is it for
              * Checking for null and empty string.
              * If this is done ot will mean that the three buttons form
@@ -237,6 +244,7 @@ namespace Tic_Tac_Toe
                     arrayOfButtons[row, col].IsEnabled = true;
                 }
             }
+            isPlayerTurn = true;
         }
 
         private void Exit_Button(object sender, RoutedEventArgs e)
